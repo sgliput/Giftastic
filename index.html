@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Giphy Project</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <!--Link for updated Bootstrap portfolio - https://sgliput.github.io/Bootstrap-Portfolio/portfolio.html -->
+    <!--Link for updated responsive portfolio - https://sgliput.github.io/Responsive-Portfolio/portfolio.html -->
+</head>
+
+<body>
+    <div class="container">
+        <h1>Just Another GIF in the Wall</h1>
+        <br>
+        <br>
+        <div class="row lower">
+            <div class="col-md-2">
+                <div id="btnColumn">
+                    
+                </div>
+                <br>
+                <br>
+                <form>
+                    <div class="form-group">
+                        <label for="inputParameter">Search Term:</label>
+                        <input type="search" class="form-control" id="inputParameter">
+                    </div>
+                    <div class="form-group">
+                        <label for="2ndParameter">Feel free to add an extra search term to be more specific:</label>
+                        <input list="options" id="2ndParameter">
+                        <datalist id="options">
+                            <option value="Disney">
+                                <option value="Pixar">
+                                    <option value="Anime">
+                                        <option value="Stop-Motion">
+                                            <option value="Dreamworks">
+                                                <option value="Cartoon Network">
+                                                    <option value="Nickelodeon">
+                        </datalist>
+                    </div>
+                </form>
+
+                <button type="button" id="search" class="btn btn-primary btn-sm">Add a Button</button>
+                <br>
+                <br>
+
+            </div>
+            <div class="col-md-1"></div>
+            <div id="gifs-appear-here" class="col-md-9">
+
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+
+</body>
+
+</html>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var topics = ["The Little Mermaid", "Dumbo", "Tangled", "The Girl Who Leapt through Time", "Coraline"];
+
+        var createButtons = function(){
+        for(var i = 0; i < topics.length; i++){
+            var moviebtn = $("<button>");
+            moviebtn.addClass("gifButton");
+            moviebtn.attr("data-movie", topics[i]);
+            var parameter2 = $("#2ndParameter").val();
+            moviebtn.attr("data-param2", parameter2);
+            moviebtn.text(topics[i]);
+            $("#btnColumn").append(moviebtn);
+        }
+        };
+        createButtons();
+
+
+        
+        $("#search").on("click", function () {
+            $("#btnColumn").empty();
+            var parameter1 = $("#inputParameter").val();
+           topics.push(parameter1); 
+            createButtons();
+            $("#inputParameter").val("");
+            $("#2ndParameter").val("");
+
+
+        });
+
+        $(document).on("click", ".gif", function () {
+            var state = $(this).attr("data-state");
+            var still = $(this).attr("data-still");
+            var animate = $(this).attr("data-animate");
+
+            if (state === "still") {
+                $(this).attr("src", animate);
+                $(this).attr("data-state", "animate");
+            } else {
+                $(this).attr("src", still);
+                $(this).attr("data-state", "still");
+            }
+
+        })
+
+
+        $(document.body).on("click", ".gifButton", function () {
+            var movie = $(this).attr("data-movie");
+            var movieTag = $(this).attr("data-param2");
+
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=animation+" +
+                movie + "+" + movieTag + "&api_key=dc6zaTOxFJmzC&limit=12";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+
+                $("#gifs-appear-here").empty();
+                console.log(response);
+
+                // make a variable named results and set it equal to response.data
+
+                var results = response.data;
+                var rowDiv = $("<div class='row'>");
+
+
+                for (var i = 0; i < results.length; i++) {
+                    // Makes a column
+                    var col = $("<div class='col-md-4 col-sm-12 col'>");
+
+                    //Makes a div to hold the gif
+                    var gifDiv = $("<div class='gifDiv'>");
+
+                    // Makes an image tag with jQuery and stores it in a variable with class "gif"
+                    var movieImage = $("<img class='gif'>");
+                    movieImage.attr("data-state", "still");
+                    movieImage.attr("data-still", results[i].images.fixed_height_still.url);
+                    movieImage.attr("data-animate", results[i].images.fixed_height.url);
+
+                    gifDiv.append(movieImage);
+                    gifDiv.append("<br><p class='rating'>Rating: " + results[i].rating.toUpperCase() + "</p>");
+                    col.append(gifDiv);
+
+                    // Set the image's src to results[i]'s fixed_height.url.
+                    movieImage.attr("src", results[i].images.fixed_height_still.url);
+
+                    // Appends the column to the row
+                    rowDiv.append(col);
+
+                    // Prepend the rowDiv to the element with an id of gifs-appear-here.
+                    $("#gifs-appear-here").prepend(rowDiv);
+                }
+
+
+
+            });
+        });
+    });
+
+//APIKey = L115xTWOsSPV1ZQ1wRJcMmMqjoX52pCT
+
+/*
+<div class="row">
+<div class="col-md-4">
+<div class="gifDiv">
+<img>
+<p>rating</p>
+
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="gifDiv">
+<img>
+<p>rating</p>
+
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="gifDiv">
+<img>
+<p>rating</p>
+
+</div>
+</div>
+</div>
+
+*/
+
+</script>
