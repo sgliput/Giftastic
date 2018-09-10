@@ -23,9 +23,11 @@
 
 <body>
     <div class="container">
+        <div class="row">
         <h1>Just Another GIF in the Wall</h1>
         <br>
         <br>
+        </div>
         <div class="row lower">
             <div class="col-md-2">
                 <div id="btnColumn">
@@ -78,33 +80,43 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        var topics = ["The Little Mermaid", "Dumbo", "Tangled", "The Girl Who Leapt through Time", "Coraline"];
+        var topics = ["The Little Mermaid", "Monsters, Inc.", "Tangled", "The Girl Who Leapt through Time", "Coraline"];
+        var secondTopics = ["Disney", "Pixar", "Disney", "Anime", "Stop-Motion"];
 
         var createButtons = function(){
         for(var i = 0; i < topics.length; i++){
             var moviebtn = $("<button>");
             moviebtn.addClass("gifButton");
             moviebtn.attr("data-movie", topics[i]);
-            var parameter2 = $("#2ndParameter").val();
-            moviebtn.attr("data-param2", parameter2);
+            moviebtn.attr("data-param2", secondTopics[i]);
             moviebtn.text(topics[i]);
             $("#btnColumn").append(moviebtn);
         }
         };
         createButtons();
 
-
+        $("#search").prop("disabled", true);
         
         $("#search").on("click", function () {
             $("#btnColumn").empty();
-            var parameter1 = $("#inputParameter").val();
+            var parameter1 = $("#inputParameter").val().trim();
+            var parameter2 = $("#2ndParameter").val().trim();
            topics.push(parameter1); 
+           secondTopics.push(parameter2);
             createButtons();
             $("#inputParameter").val("");
             $("#2ndParameter").val("");
-
+            console.log(topics);
+            console.log(secondTopics);
+            $("#search").prop("disabled", true);
 
         });
+
+        $("#inputParameter").change(function(){
+            $("#search").prop("disabled", false);
+
+        });
+        
 
         $(document).on("click", ".gif", function () {
             var state = $(this).attr("data-state");
