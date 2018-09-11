@@ -24,52 +24,98 @@
 <body>
     <div class="container">
         <div class="row">
-        <h1>Just Another GIF in the Wall</h1>
-        <br>
-        <br>
+            <h1>Just Another GIF in the Wall</h1>
+            <br>
+            <br>
         </div>
+        <br>
+        <br>
         <div class="row lower">
             <div class="col-md-2">
                 <div id="btnColumn">
-                    
+
                 </div>
-                <br>
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label for="inputParameter">Search Term:</label>
-                        <input type="search" class="form-control" id="inputParameter">
-                    </div>
-                    <div class="form-group">
-                        <label for="2ndParameter">Feel free to add an extra search term to be more specific:</label>
-                        <input list="options" id="2ndParameter">
-                        <datalist id="options">
-                            <option value="Disney">
-                                <option value="Pixar">
-                                    <option value="Anime">
-                                        <option value="Stop-Motion">
-                                            <option value="Dreamworks">
-                                                <option value="Cartoon Network">
-                                                    <option value="Nickelodeon">
-                        </datalist>
-                    </div>
-                </form>
-
-                <button type="button" id="search" class="btn btn-primary btn-sm">Add a Button</button>
-                <br>
-                <br>
-
             </div>
-            <div class="col-md-1"></div>
-            <div id="gifs-appear-here" class="col-md-9">
+            <br>
+            <br>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <label for="inputParameter">Search Term:</label>
+                                <input type="search" class="form-control" id="inputParameter">
+                            </div>
+                            <div class="form-group">
+                                <label for="2ndParameter">Feel free to add an extra search term to be more specific:</label>
+                                <br>
+                                <input list="options" id="2ndParameter">
+                                <datalist id="options">
+                                    <option value="Disney">
+                                        <option value="Pixar">
+                                            <option value="Anime">
+                                                <option value="Stop-Motion">
+                                                    <option value="Dreamworks">
+                                                        <option value="Cartoon Network">
+                                                            <option value="Nickelodeon">
+                                </datalist>
+                            </div>
 
+
+                            <button type="button" id="search" class="btn btn-primary btn-sm">Add a Button</button>
+                            <br>
+                        </form>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <form>
+                            <div class="form-group">
+                                <label for="numberParameter">Choose a number to add that many more GIFs when you click the buttons above. (You can also
+                                    take GIFs away with a negative number.)</label>
+                                <br>
+                                <br>
+                                <input list="numberOptions" id="numberParameter">
+                                <datalist id="numberOptions">
+                                    <option value="1">
+                                        <option value="2">
+                                            <option value="3">
+                                                <option value="4">
+                                                    <option value="5">
+                                                        <option value="6">
+                                                            <option value="7">
+                                                                <option value="8">
+                                                                    <option value="9">
+                                                                        <option value="10">
+
+                                </datalist>
+                            </div>
+
+                            <button type="button" id="addGifs" class="btn btn-primary btn-sm">Add More GIFs</button>
+                            <br>
+                            <br>
+                        </form>
+                    </div>
+
+                </div>
+
+
+                <div id="gifs-appear-here" class="col-md-11">
+
+                </div>
             </div>
         </div>
     </div>
+    <br>
+    <br>
+    <div id="spaces">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
 
 
-    </div>
-    </div>
+    
 
 </body>
 
@@ -79,30 +125,35 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         var topics = ["The Little Mermaid", "Monsters, Inc.", "Tangled", "The Girl Who Leapt through Time", "Coraline"];
         var secondTopics = ["Disney", "Pixar", "Disney", "Anime", "Stop-Motion"];
+        var num = 0;
 
-        var createButtons = function(){
-        for(var i = 0; i < topics.length; i++){
-            var moviebtn = $("<button>");
-            moviebtn.addClass("gifButton");
-            moviebtn.attr("data-movie", topics[i]);
-            moviebtn.attr("data-param2", secondTopics[i]);
-            moviebtn.text(topics[i]);
-            $("#btnColumn").append(moviebtn);
-        }
+        var createButtons = function () {
+            for (var i = 0; i < topics.length; i++) {
+                var moviebtn = $("<button>");
+                moviebtn.addClass("gifButton");
+                moviebtn.attr("data-movie", topics[i]);
+                moviebtn.attr("data-param2", secondTopics[i]);
+                if(secondTopics[i] !== ""){
+                    moviebtn.text(topics[i] + " (" + secondTopics[i] + ")");
+                } else{
+                    moviebtn.text(topics[i]);
+                }
+                $("#btnColumn").append(moviebtn);
+            }
         };
         createButtons();
 
         $("#search").prop("disabled", true);
-        
+
         $("#search").on("click", function () {
             $("#btnColumn").empty();
             var parameter1 = $("#inputParameter").val().trim();
             var parameter2 = $("#2ndParameter").val().trim();
-           topics.push(parameter1); 
-           secondTopics.push(parameter2);
+            topics.push(parameter1);
+            secondTopics.push(parameter2);
             createButtons();
             $("#inputParameter").val("");
             $("#2ndParameter").val("");
@@ -112,11 +163,11 @@
 
         });
 
-        $("#inputParameter").change(function(){
+        $("#inputParameter").change(function () {
             $("#search").prop("disabled", false);
 
         });
-        
+
 
         $(document).on("click", ".gif", function () {
             var state = $(this).attr("data-state");
@@ -133,13 +184,26 @@
 
         })
 
+        $("#addGifs").on("click", function () {
+            num += parseInt($("#numberParameter").val());
+            $("#numberParameter").val("");
+            console.log(num);
+        });
 
-        $(document.body).on("click", ".gifButton", function () {
+        $(document.body).on("click", ".gifButton", function() {
+
             var movie = $(this).attr("data-movie");
             var movieTag = $(this).attr("data-param2");
+            $("#spaces").hide();
 
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=animation+" +
-                movie + "+" + movieTag + "&api_key=dc6zaTOxFJmzC&limit=12";
+            if (num === 0) {
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=animation+" +
+                    movie + "+" + movieTag + "&api_key=dc6zaTOxFJmzC&limit=10";
+            } else {
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=animation+" +
+                    movie + "+" + movieTag + "&api_key=dc6zaTOxFJmzC&limit=" + (10 + num);
+            }
+
 
             $.ajax({
                 url: queryURL,
@@ -172,7 +236,7 @@
                     gifDiv.append("<br><p class='rating'>Rating: " + results[i].rating.toUpperCase() + "</p>");
                     col.append(gifDiv);
 
-                    // Set the image's src to results[i]'s fixed_height.url.
+                    // Set the image's src to results[i]'s fixed_height_still.url.
                     movieImage.attr("src", results[i].images.fixed_height_still.url);
 
                     // Appends the column to the row
@@ -190,33 +254,5 @@
 
 //APIKey = L115xTWOsSPV1ZQ1wRJcMmMqjoX52pCT
 
-/*
-<div class="row">
-<div class="col-md-4">
-<div class="gifDiv">
-<img>
-<p>rating</p>
-
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="gifDiv">
-<img>
-<p>rating</p>
-
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="gifDiv">
-<img>
-<p>rating</p>
-
-</div>
-</div>
-</div>
-
-*/
 
 </script>

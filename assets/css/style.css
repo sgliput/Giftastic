@@ -1,5 +1,10 @@
 body{
-    text-align: center;    
+    text-align: center; 
+    
+   background: -moz-linear-gradient(#5FC2E3, #DFF02B, #DB325A);
+   background: -o-linear-gradient(#5FC2E3, #DFF02B, #DB325A);
+   background: -webkit-linear-gradient(#5FC2E3, #DFF02B, #DB325A);
+   background-size: 100% 100%;
 }
 
 .gif{
