@@ -163,8 +163,13 @@
 
         });
 
-        $("#inputParameter").change(function () {
+        $("#inputParameter").on("keyup", function () {
+            if($("#inputParameter").val() === ""){
+                $("#search").prop("disabled", true);
+            } else {
             $("#search").prop("disabled", false);
+            }
+            console.log($("#inputParameter").val());
 
         });
 
