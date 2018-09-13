@@ -8,10 +8,11 @@ body{
 }
 
 .gif{
-    width: 82%;
-    height: 130px;
-    max-height: 130px;
+    width: 83%;
+    height: 107px;
+    max-height: 107px;
     margin: 7% auto 0 auto;
+    border-radius: 5px;
 }
 
 .gifDiv{
@@ -21,8 +22,12 @@ body{
     color: white;
 }
 
-h1{
+h1, h3{
     margin: 0 auto;
+}
+
+.rating{
+  font-size: .8rem;
 }
 
 
@@ -34,8 +39,8 @@ h1{
 
 @media screen and (max-width: 1200px) {
     .gif {
-      height: 110px;
-      max-height: 110px;
+      height: 87px;
+      max-height: 87px;
     }
   }
 
