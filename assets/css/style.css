@@ -47,8 +47,8 @@ h1, h3{
 
   @media screen and (max-width: 991px) {
     .gif {
-      height: 80px;
-      max-height: 80px;
+      height: 62px;
+      max-height: 62px;
     }
   }
 
