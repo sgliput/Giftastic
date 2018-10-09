@@ -1,5 +1,8 @@
 # Giftastic
 
+## Deployed Project
+[https://sgliput.github.io/Giftastic/] (https://sgliput.github.io/Giftastic/ "Giftastic")
+
 ## Overview
 In this project, I used Bootstrap grid styling and the Giphy API to generate columns of gif images related to animation, each of which is centered atop a brick background with the Giphy rating underneath.
 
